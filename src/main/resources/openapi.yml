@@ -1,0 +1,251 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: 'http://localhost:8085'
+    description: Generated server url
+paths:
+  /account:
+    get:
+      tags:
+        - account-controller
+      operationId: getAll
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Account'
+    put:
+      tags:
+        - account-controller
+      operationId: updateAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountRequestDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Account'
+  /account/restartTransactions:
+    put:
+      tags:
+        - account-controller
+      operationId: restartTransactions
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Message'
+  /account/withdrawal:
+    post:
+      tags:
+        - account-controller
+      operationId: withdrawalAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountRequestDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AccountResponseDto'
+  /account/person:
+    post:
+      tags:
+        - account-controller
+      operationId: createAccountPerson
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountRequestDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AccountResponseDto'
+  /account/deposit:
+    post:
+      tags:
+        - account-controller
+      operationId: depositAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountRequestDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AccountResponseDto'
+  /account/company:
+    post:
+      tags:
+        - account-controller
+      operationId: createAccountCompany
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountRequestDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AccountResponseDto'
+  '/account/{accountId}':
+    get:
+      tags:
+        - account-controller
+      operationId: getAccountById
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Account'
+    delete:
+      tags:
+        - account-controller
+      operationId: deleteAccount
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Message'
+  '/account/consult/{customerId}':
+    get:
+      tags:
+        - account-controller
+      operationId: getAllAccountXCustomerId
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Account'
+components:
+  schemas:
+    AccountRequestDto:
+      type: object
+      properties:
+        id:
+          type: string
+        customerId:
+          type: string
+        typeAccount:
+          type: integer
+          format: int32
+        descripTypeAccount:
+          type: string
+        amount:
+          type: number
+          format: double
+        maintenance:
+          type: number
+          format: double
+        transaction:
+          type: integer
+          format: int32
+        operationDay:
+          type: integer
+          format: int32
+        dateAccount:
+          type: string
+          format: date-time
+        typeCustomer:
+          type: string
+        numberAccount:
+          type: string
+    Account:
+      type: object
+      properties:
+        id:
+          type: string
+        customerId:
+          type: string
+        descripTypeAccount:
+          type: string
+        amount:
+          type: number
+          format: double
+        maintenance:
+          type: number
+          format: double
+        transaction:
+          type: integer
+          format: int32
+        operationDay:
+          type: integer
+          format: int32
+        dateAccount:
+          type: string
+          format: date-time
+        typeCustomer:
+          type: string
+        numberAccount:
+          type: string
+    Message:
+      type: object
+      properties:
+        message:
+          type: string
+    AccountResponseDto:
+      type: object
+      properties:
+        account:
+          $ref: '#/components/schemas/Account'
+        message:
+          type: string
