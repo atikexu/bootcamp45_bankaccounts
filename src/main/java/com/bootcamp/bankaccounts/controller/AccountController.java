@@ -1,6 +1,7 @@
 package com.bootcamp.bankaccounts.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bootcamp.bankaccounts.dto.AccountRequestDto;
 import com.bootcamp.bankaccounts.dto.AccountResponseDto;
 import com.bootcamp.bankaccounts.dto.Message;
+import com.bootcamp.bankaccounts.dto.TransferRequestDto;
+import com.bootcamp.bankaccounts.dto.TransferResponseDto;
 import com.bootcamp.bankaccounts.entity.Account;
 import com.bootcamp.bankaccounts.service.AccountService;
 
@@ -52,9 +55,9 @@ public class AccountController {
 	 * @param accountRequestDto
 	 * @return Mono<AccountResponseDto>
 	 */
-	@PostMapping("/person")
+	@PostMapping(value = "/person", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<AccountResponseDto> createAccountPerson(@RequestBody AccountRequestDto accountRequestDto) {
-		return (accountService.createAccountPerson(accountRequestDto));
+		return accountService.createAccountPerson(accountRequestDto);
     }
 	
 	/**
@@ -62,9 +65,9 @@ public class AccountController {
 	 * @param accountRequestDto
 	 * @return Mono<AccountResponseDto>
 	 */
-	@PostMapping("/company")
+	@PostMapping(value = "/company", consumes= MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<AccountResponseDto> createAccountCompany(@RequestBody AccountRequestDto accountRequestDto) {
-		return (accountService.createAccountCompany(accountRequestDto));
+		return accountService.createAccountCompany(accountRequestDto);
     }
 	
 	/**
@@ -72,8 +75,8 @@ public class AccountController {
 	 * @param accountRequestDto
 	 * @return Mono<Account>
 	 */
-	@PutMapping
-	public Mono<Account> updateAccount(@RequestBody AccountRequestDto accountRequestDto){
+	@PutMapping(consumes= MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Mono<AccountResponseDto> updateAccount(@RequestBody AccountRequestDto accountRequestDto){
 		return accountService.updateAccount(accountRequestDto);
     }
 	
@@ -92,9 +95,9 @@ public class AccountController {
 	 * @param accountRequestDto
 	 * @return Mono<AccountResponseDto>
 	 */
-	@PostMapping("/deposit")
+	@PostMapping(value = "/deposit", consumes= MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<AccountResponseDto> depositAccount(@RequestBody AccountRequestDto accountRequestDto) {
-		return (accountService.depositAccount(accountRequestDto));
+		return accountService.depositAccount(accountRequestDto);
     }
 	
 	/**
@@ -102,9 +105,9 @@ public class AccountController {
 	 * @param accountRequestDto
 	 * @return Mono<AccountResponseDto>
 	 */
-	@PostMapping("/withdrawal")
+	@PostMapping(value = "/withdrawal", consumes= MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<AccountResponseDto> withdrawalAccount(@RequestBody AccountRequestDto accountRequestDto) {
-		return (accountService.withdrawalAccount(accountRequestDto));
+		return accountService.withdrawalAccount(accountRequestDto);
     }
 	
 	/**
@@ -116,14 +119,25 @@ public class AccountController {
     public Flux<Account> getAllAccountXCustomerId(@PathVariable String customerId){
 		return accountService.getAllAccountXCustomerId(customerId);
     }
+		
+	/**
+	 * Transferencia entre propias cuentas
+	 * @param transferRequestDto
+	 * @return Mono<TransferResponseDto>
+	 */
+	@PostMapping("/transfer")
+    public Mono<TransferResponseDto> transferBetweenAccounts(@RequestBody TransferRequestDto transferRequestDto) {
+		return accountService.transferBetweenAccounts(transferRequestDto);
+    }
 	
 	/**
-	 * Reiniciar el numero de movimientos de las cuentas
-	 * @return Mono<Message>
+	 * Transferencia entre cuenta de terceros
+	 * @param transferRequestDto
+	 * @return Mono<TransferResponseDto>
 	 */
-	@PutMapping("/restartTransactions")
-    public Mono<Message> restartTransactions(){
-		return accountService.restartTransactions();
+	@PostMapping("/transferthird")
+    public Mono<TransferResponseDto> transferThirdParty(@RequestBody TransferRequestDto transferRequestDto) {
+		return accountService.transferThirdParty(transferRequestDto);
     }
 	
 }

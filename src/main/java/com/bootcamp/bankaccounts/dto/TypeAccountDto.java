@@ -12,5 +12,6 @@ public class TypeAccountDto {
 	private String type;
 	private Double maintenance;
 	private Integer transactions;
+	private Double commission;
 	private Integer dayOperation;
 }

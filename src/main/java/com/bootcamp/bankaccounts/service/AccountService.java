@@ -3,6 +3,8 @@ package com.bootcamp.bankaccounts.service;
 import com.bootcamp.bankaccounts.dto.AccountRequestDto;
 import com.bootcamp.bankaccounts.dto.AccountResponseDto;
 import com.bootcamp.bankaccounts.dto.Message;
+import com.bootcamp.bankaccounts.dto.TransferRequestDto;
+import com.bootcamp.bankaccounts.dto.TransferResponseDto;
 import com.bootcamp.bankaccounts.entity.Account;
 
 import reactor.core.publisher.Flux;
@@ -18,7 +20,7 @@ public interface AccountService {
 	
 	Mono<AccountResponseDto> createAccountCompany(AccountRequestDto accountRequestDto);
 
-	Mono<Account> updateAccount(AccountRequestDto accountRequestDto);
+	Mono<AccountResponseDto> updateAccount(AccountRequestDto accountRequestDto);
 
 	Mono<Message> deleteAccount(String accountId);
 	
@@ -27,7 +29,9 @@ public interface AccountService {
 	Mono<AccountResponseDto> withdrawalAccount(AccountRequestDto accountRequestDto);
 	
 	Flux<Account> getAllAccountXCustomerId(String customerId);
+		
+	Mono<TransferResponseDto> transferBetweenAccounts(TransferRequestDto transferRequestDto);
 	
-	Mono<Message> restartTransactions();
+	Mono<TransferResponseDto> transferThirdParty(TransferRequestDto transferRequestDto);
 
 }

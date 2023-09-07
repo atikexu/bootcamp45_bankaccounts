@@ -3,16 +3,14 @@ package com.bootcamp.bankaccounts.dto;
 import com.bootcamp.bankaccounts.entity.Account;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 @JsonInclude(Include.NON_NULL)
-public class AccountResponseDto {
+public class TransferResponseDto {
 	private String message;
-	private Account account;
+	private List<Account> account;
 }
